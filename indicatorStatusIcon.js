@@ -14,7 +14,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-/* exported IndicatorStatusIcon, IndicatorStatusTrayIcon, addIconToPanel */
+/* exported IndicatorStatusIcon, IndicatorStatusTrayIcon, addIconToPanel,
+     getTrayIcons, getAppIndicatorIcons */
 
 const Clutter = imports.gi.Clutter;
 const GObject = imports.gi.GObject;
@@ -54,6 +55,16 @@ function addIconToPanel(statusIcon) {
 
     Util.connectSmart(settings, 'changed::tray-pos', statusIcon, () =>
         addIconToPanel(statusIcon));
+}
+
+function getTrayIcons() {
+    return Object.values(Main.panel.statusArea).filter(
+        i => i instanceof IndicatorStatusTrayIcon);
+}
+
+function getAppIndicatorIcons() {
+    return Object.values(Main.panel.statusArea).filter(
+        i => i instanceof IndicatorStatusIcon);
 }
 
 const BaseStatusIcon = GObject.registerClass(
